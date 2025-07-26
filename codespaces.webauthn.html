@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebAuthn Demo</title>
+</head>
+<body>
+    <h1>WebAuthn Registration & Login</h1>
+    <button id="registerBtn">Register</button>
+    <button id="loginBtn">Login</button>
+    <pre id="output"></pre>
+    <script>
+        async function register() {
+            // Example: get challenge and user info from server
+            const challenge = Uint8Array.from(window.crypto.getRandomValues(new Uint8Array(32)));
+            const publicKey = {
+                challenge: challenge,
+                rp: { name: "Example Corp" },
+                user: {
+                    id: Uint8Array.from([1,2,3,4]),
+                    name: "user@example.com",
+                    displayName: "User Example"
+                },
+                pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+                authenticatorSelection: { userVerification: "preferred" },
+                timeout: 60000,
+                attestation: "direct"
+            };
+            try {
+                const cred = await navigator.credentials.create({ publicKey });
+                document.getElementById('output').textContent = "Registration successful:\n" + JSON.stringify(cred, null, 2);
+            } catch (err) {
+                document.getElementById('output').textContent = "Registration failed:\n" + err;
+            }
+        }
+
+        async function login() {
+            // Example: get challenge from server
+            const challenge = Uint8Array.from(window.crypto.getRandomValues(new Uint8Array(32)));
+            const publicKey = {
+                challenge: challenge,
+                timeout: 60000,
+                allowCredentials: [{
+                    type: "public-key",
+                    id: Uint8Array.from([1,2,3,4])
+                }],
+                userVerification: "preferred"
+            };
+            try {
+                const assertion = await navigator.credentials.get({ publicKey });
+                document.getElementById('output').textContent = "Login successful:\n" + JSON.stringify(assertion, null, 2);
+            } catch (err) {
+                document.getElementById('output').textContent = "Login failed:\n" + err;
+            }
+        }
+
+        document.getElementById('registerBtn').onclick = register;
+        document.getElementById('loginBtn').onclick = login;
+    </script>
+</body>
+</html>
