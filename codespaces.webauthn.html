@@ -18,8 +18,8 @@
                 rp: { id: "atekinwww.github.io", name: "Example Corp" },
                 user: {
                     id: Uint8Array.from([1,2,3,4]),
-                    name: "user@example.com",
-                    displayName: "User Example"
+                    name: "passkey@atekin.com",
+                    displayName: "A.TEKİN"
                 },
                 pubKeyCredParams: [{ type: "public-key", alg: -7 }],
                 authenticatorSelection: { userVerification: "preferred" },
@@ -40,12 +40,12 @@
             const publicKey = {
                 challenge: challenge,
                 timeout: 60000,
-                rpId: "atekinwww.github.io",
+                rp: { id: "atekinwww.github.io", name: "Example Corp" },
                 allowCredentials: [{
                     type: "public-key",
                     id: Uint8Array.from([1,2,3,4]),
-                    name: "user@example.com",
-                    displayName: "User Example"
+                    name: "passkey@atekin.com",
+                    displayName: "A.TEKİN"
                 }],
                 userVerification: "preferred",
                 
