@@ -15,7 +15,7 @@
             const challenge = Uint8Array.from(window.crypto.getRandomValues(new Uint8Array(32)));
             const publicKey = {
                 challenge: challenge,
-                rp: { name: "Example Corp" },
+                rp: { id: "atekinwww.github.io", name: "Example Corp" },
                 user: {
                     id: Uint8Array.from([1,2,3,4]),
                     name: "user@example.com",
@@ -40,11 +40,15 @@
             const publicKey = {
                 challenge: challenge,
                 timeout: 60000,
+                rpId: "atekinwww.github.io",
                 allowCredentials: [{
                     type: "public-key",
-                    id: Uint8Array.from([1,2,3,4])
+                    id: Uint8Array.from([1,2,3,4]),
+                    name: "user@example.com",
+                    displayName: "User Example"
                 }],
-                userVerification: "preferred"
+                userVerification: "preferred",
+                
             };
             try {
                 const assertion = await navigator.credentials.get({ publicKey });
